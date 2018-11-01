@@ -1,0 +1,17 @@
+body {
+  display: grid;
+  grid-template-columns: '';
+  grid-area: 'nav main';
+}
+
+#nav-container {
+
+}
+
+#form-container {
+
+}
+
+#pictures-container {
+
+}

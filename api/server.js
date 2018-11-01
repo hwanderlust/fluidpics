@@ -3,7 +3,7 @@ const app = express();
 const PORT = 3000;
 const routes = require('./routes');
 const morgan = require("morgan");
-// const cors = require('cors');
+const cors = require('cors');
 
 // const whitelist = ["http://localhost:3000/"];
 // const corsOptions = {
@@ -17,9 +17,13 @@ const morgan = require("morgan");
 //   methods: 'GET'
 // };
 
+const corsOptions = {
+  origin: '*'
+}
+
 app.use(morgan("short"));
 app.use(express.urlencoded());
-// app.use(cors(corsOptions));
+app.use(cors(corsOptions));
 app.use('/', routes);
 
 app.listen(PORT, () => {

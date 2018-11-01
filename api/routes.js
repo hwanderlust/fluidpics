@@ -26,7 +26,8 @@ router.route('/search/:query')
     fetch(url, options)
     .then(r => r.json())
     .then(data => {
-      const imageLinks = data.photos.results.map(el => el.links.html);
+      const imageLinks = data.photos.results.map(el => el.urls.regular);
+      // console.log(imageLinks);
       res.json(imageLinks)
     })
 
