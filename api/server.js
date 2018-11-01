@@ -3,9 +3,23 @@ const app = express();
 const PORT = 3000;
 const routes = require('./routes');
 const morgan = require("morgan");
+// const cors = require('cors');
+
+// const whitelist = ["http://localhost:3000/"];
+// const corsOptions = {
+//   origin: function(origin, callback) {
+//     if(whitelist.indexOf(origin) !== -1) {
+//       callback(null, true)
+//     } else {
+//       callback(new Error('Not allowed by CORS'))
+//     }
+//   },
+//   methods: 'GET'
+// };
 
 app.use(morgan("short"));
-app.use(express.urlencoded())
+app.use(express.urlencoded());
+// app.use(cors(corsOptions));
 app.use('/', routes);
 
 app.listen(PORT, () => {
