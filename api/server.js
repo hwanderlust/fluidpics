@@ -3,10 +3,14 @@ const app = express();
 const PORT = 3000;
 const routes = require('./routes');
 const morgan = require("morgan");
-const bodyParser = require('body-parser');
 
 app.use(morgan("short"));
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.urlencoded())
 app.use('/', routes);
 
-app.listen(PORT)
+app.listen(PORT, () => {
+  console.log(`app is up and running captain!`)
+})
+
+// app.use(bodyParser.urlencoded({ extended: false }));
+// const bodyParser = require('body-parser');
