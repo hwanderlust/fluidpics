@@ -4,15 +4,31 @@ document.addEventListener('DOMContentLoaded', () => {
   const searchForm = document.getElementById('search-form');
   const searchInput = document.getElementById('search-input');
   const picturesContainer = document.getElementById('pictures-container');
+  const logoutBtn = document.getElementById('logout-btn')
+  const apiRootUrl = `http://localhost:3000`;
   
+
   searchForm.addEventListener('submit', handleSearchSubmit);
+  logoutBtn.addEventListener('click', handleLogout);
+
+  
+  function handleLogout(e) {
+    e.preventDefault();
+
+    fetch(`${apiRootUrl}/logout`, { method: 'DELETE' })
+      .then(r => r.json())
+      .then(r => {
+        alert(r.msg)
+        document.location.assign('/app/login.html')
+      })
+  }
   
   function handleSearchSubmit(e) {
     
     e.preventDefault();
     console.log(`test`, searchInput.value);
 
-    const apiUrl = `http://localhost:3000/search/${searchInput.value}`;
+    const apiUrl = `${apiRootUrl}/search/${searchInput.value}`;
     const options = {
       method: 'GET',
     };
