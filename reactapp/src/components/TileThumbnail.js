@@ -1,16 +1,13 @@
-import React from 'react';
+import React, { memo } from 'react';
 
 
-const TileThumbnail = ({ thumbnail, handleOnload }) => {
+const TileThumbnail = memo(({ thumbnail, handleOnload }) => {
 
   const styles = {
-    backgroundImage: `url(${thumbnail})`,
-    backgroundSize: "cover",
-    backgroundRepeat: "no-repeat",
-    backgroundPosition: "center"
+    backgroundImage: `url(${thumbnail})`
   };
 
   return <div onLoad={handleOnload()} className="pic-container" style={styles} />;
-};
+});
 
 export default TileThumbnail;
