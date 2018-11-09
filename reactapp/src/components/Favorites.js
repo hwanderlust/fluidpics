@@ -37,7 +37,7 @@ class Favorites extends React.Component {
 
     return (
 
-      <div className='tile-area'>
+      <main className='tile-area'>
         <StoreConsumer>
           {ctx => {
             // console.log(ctx)
@@ -48,7 +48,7 @@ class Favorites extends React.Component {
             )
           }}
         </StoreConsumer>
-      </div>
+      </main>
 
       // can't bc it doesn't update when ctx changes
       // <div className='tile-area'>

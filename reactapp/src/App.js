@@ -1,10 +1,8 @@
 import React, { Component, Suspense, lazy } from 'react';
 import { Switch, Route } from 'react-router-dom';
-import './App.css';
-// import TileContainer from './components/TileContainer';
-import NavContainer from './components/NavContainer';
+import './App.scss';
+import Navbar from './components/Navbar';
 import Home from './components/Home'
-// import WindowingTileContainer from './components/WindowingTileContainer';
 
 const Favorites = lazy(() => import('./components/Favorites'))
 
@@ -14,10 +12,11 @@ class App extends Component {
 
     return (
       <div className="App">
+
+        <Navbar />
+
         <Switch>
           <Route exact path="/" component={Home} />
-          {/* <Route exact path="/" component={TileContainer} /> */}
-          {/* <Route exact path="/" component={WindowingTileContainer} /> */}
           <Route exact path="/favorites" render={() => (
               <Suspense delayMs={1000} fallback={<div>Loading!</div>}>
                 <Favorites />
@@ -25,7 +24,6 @@ class App extends Component {
           )} />
         </Switch>
 
-        <NavContainer />
       </div>
     );
   }

@@ -1,46 +1,52 @@
-import React, { Suspense, lazy, PureComponent } from 'react'
+import React, { PureComponent } from 'react'
 import { StoreConsumer } from "../contexts/StoreContext";
-// import TilePic from './TilePic';
-import TileThumbnail from './TileThumbnail';
 import TileTitle from './TileTitle';
 import TileDetails from './TileDetails';
-const TilePic = lazy(() => import('./TilePic'))
-
-const originalStyle = {
-  position: 'relative',
-  top: '50%',
-  left: '55%',
-  fontSize: '3em',
-}
-
-const favStyle = {
-  color: 'red',
-  transition: 'ease-in-out 50ms'
-}
-
+import TilePic from './TilePic';
 
 class Tile extends PureComponent {
   
   static contextType = StoreConsumer;
   
-  state = {
-    fav: false,
-    loaded: false
-  }
-  
-  componentDidMount() {
+  constructor(props) {
+    super(props)
 
+    this.state = {
+      fav: false,
+    }
+
+    this.favIcon = React.createRef()
+  };
+
+  componentDidMount() {
     if(this.props.fav) {
+
+      this.favIcon.current.className += ` red`;
+
       this.setState({
         fav: true
       })
     }
   }
+
+  toggleFavClass = () => {
+
+    const iconClass = this.favIcon.current.className;
+
+    if(this.state.fav) {
+      this.favIcon.current.className = iconClass.slice(0, iconClass.length - 4);
+      
+    } else {
+      this.favIcon.current.className += ` red`;
+    }
+  }
+  
   
   toggleFav = () => {
-    
     const { handleFavoriting, handleUnfavoriting } = this.context
     const { tile } = this.props 
+
+    this.toggleFavClass()
 
     this.setState(prevState => {
       
@@ -58,31 +64,13 @@ class Tile extends PureComponent {
       console.log(this.state)
     })
   }
-  
-  handleIconStyles = () => {
-    
-    if(this.state.fav) {
-      return {...originalStyle, ...favStyle}
-      
-    } else {
-      return originalStyle
-    }
-  }
-  
-  handleOnload = () => {
-    this.setState(prevState => {
-      return {
-        loaded: true
-      }
-    })
-  }
 
-  asyncRenderPic = (pic) => {
-    return (
-      <Suspense>
-        <TilePic picture={ pic } />
-      </Suspense>
-    )
+  handleKeyPress = (e) => {
+    console.log(`key:`, e.key)
+
+    if(e.key === 'Enter') {
+      this.toggleFav()
+    }
   }
   
 
@@ -90,16 +78,16 @@ class Tile extends PureComponent {
     const { tile, style } = this.props 
     
     return (
-      
-      <div className='tile-container' style={style} onDoubleClick={this.toggleFav}  >
-        {<i className='fab fa-gratipay' style={this.handleIconStyles()} onClick={this.toggleFav}></i> }
-
-        { this.state.loaded ? this.asyncRenderPic(tile.picture) : <TileThumbnail thumbnail={ tile.thumbnail } handleOnload={this.handleOnload} /> }
-
-        <TileTitle title={ tile.title } />
-        <TileDetails tile={tile} />
-      </div>
-
+      <React.Fragment>
+        <div className='tile-wrapper'>
+          <div className="tile-container" style={style} onDoubleClick={this.toggleFav} tabIndex='0' >
+            <TilePic picture={tile.picture} />
+            <TileTitle title={tile.title} />
+            <TileDetails tile={tile} />
+          </div>
+          <i ref={this.favIcon} className="fab fa-gratipay fav-icon" onClick={this.toggleFav} onKeyPress={this.handleKeyPress} tabIndex='0'/>
+        </div>
+      </React.Fragment>
     )
   }
 }

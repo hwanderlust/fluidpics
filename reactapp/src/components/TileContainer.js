@@ -1,6 +1,4 @@
 import React, { Component, Suspense, lazy } from 'react'
-// import Tile from './Tile'
-import { StoreConsumer } from "../contexts/StoreContext";
 const Tile = lazy(() => import('./Tile'))
 
 
@@ -15,8 +13,6 @@ const pluralize = (num, words) => {
 
 class TileContainer extends Component {
 
-  static contextType = StoreConsumer;
-  
   state = {
     data: null,
   }
@@ -82,13 +78,13 @@ class TileContainer extends Component {
 
   render() {
     return (
-      <div className='tile-area'>
+      <main className='tile-area'>
         <Suspense delayMs={1000} fallback={<div>Loading...</div>}>
 
           { this.state.data ? this.renderTiles() : null }
 
         </Suspense>
-      </div>
+      </main>
     )
   }
 }

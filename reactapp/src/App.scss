@@ -1,6 +1,8 @@
 $light-blue: #57a2e4;
+$outline-color: rgb(3, 80, 54);
 $primary-font: Helvetica;
 $title-font: 'Arvo', serif;
+
 
 %flex {
   display: flex;
@@ -41,7 +43,7 @@ $title-font: 'Arvo', serif;
   text-align: center;
   display: grid;
   grid-auto-columns: 33vw 33vw 33vh;
-  grid-area: 'space content space'
+  grid-area: 'space content space';
 }
 
 .nav-bar {
@@ -49,16 +51,26 @@ $title-font: 'Arvo', serif;
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  border-bottom: 1px solid rgba(0,0,0,0.2);
   height: 6vh;
   position: fixed;
   width: 100vw;
   background-color: rgba(255,255,255,0.7);
+  z-index: 100;
+}
+
+.nav-bar:after {
+  position: fixed;
+  content: '';
+  background: linear-gradient(to right, rgba(0,0,0,0.5), $light-blue);
+  height: 3px;
+  right: 0;
+  left: 0;
+  top: 6vh;
 }
 
 .nav-item {
   @include flexbox-standard('items');
-  padding: 0 1vw;
+  padding: 0 2vw;
   height: 100%;
   box-sizing: content-box;
   font-family: $primary-font;
@@ -69,29 +81,57 @@ $title-font: 'Arvo', serif;
   text-decoration: none;
 }
 
+.nav-item:focus {
+  outline-color: $outline-color;
+}
+
 .active {
   background-color: $light-blue;
   color: #FFF;
 }
 
 .search-bar {
-  height: 5vh;
+  height: 5.5vh;
   position: fixed;
-  top: 7vh;
-  left: 33%;
+  top: 0;
+  left: 66%;
   width: 33%;
   line-height: 2em;
-  font-size: 2em;
+  font-size: 3vw;
   text-align: center;
-  box-shadow: 1px 1px pink;
   border: 1px solid rgba(0,0,0,0.2);
   border-radius: 5px;
+}
+
+.search-bar:focus {
+  outline-color: $outline-color;
+}
+
+header {
+  position: absolute;
+  top: 5vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+}
+
+header h1 {
+  font-family: $title-font;
+  font-size: 3em;
 }
 
 .tile-area {
   grid-area: content;
   @include flexbox-inverted('items');
-  margin-top: 15vh;
+  margin-top: 18vh;
+}
+
+.tile-wrapper {
+  @include flexbox-standard('items');
+  position: relative;
+  height: 500px;
+  max-width: 500px;
+  margin-bottom: 1rem;
 }
 
 .tile-container {
@@ -99,14 +139,20 @@ $title-font: 'Arvo', serif;
   height: 500px;
   max-width: 500px;
   box-shadow: 1px 1px 1px rgba(0,0,0,0.35);
-  margin-bottom: 1rem;
-  background-position: center;
   @include transform(scale(0.98));
 }
 
 .tile-container:hover {
   background-color: rgba(0,0,0,0.1);
-  @include transform(scale(1.05));
+  @include transform(scale(1));
+  box-shadow: 2px 2px 2px rgba(0,0,0,0.5);
+  transition: ease 250ms;
+}
+
+.tile-container:focus {
+  outline-color: $outline-color;
+  background-color: rgba(0,0,0,0.1);
+  @include transform(scale(1));
   box-shadow: 2px 2px 2px rgba(0,0,0,0.5);
   transition: ease 250ms;
 }
@@ -142,6 +188,19 @@ $title-font: 'Arvo', serif;
   align-items: center;
 }
 
+.fav-icon {
+  font-size: 3em;
+  transition: ease 50ms;
+}
+
+.red {
+  color: red;
+}
+
+.fav-icon:focus {
+  outline-color: $outline-color;
+}
+
 .error-msg {
   background-color: aquamarine;
   position: relative;
@@ -165,7 +224,29 @@ $title-font: 'Arvo', serif;
 }
 
 @media (max-width: 550px) {
+
+  body {
+    padding: 0 0.1rem;
+  }
+
   .App {
     display: flex;
   }
+}
+
+@media (max-width: 530px) {
+
+  .tile-wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .pic-container {
+    width: auto;
+  }
+
+  .nav-bar {
+    left: 0;
+  }
+
 }
