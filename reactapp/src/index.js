@@ -4,10 +4,13 @@ import { BrowserRouter } from 'react-router-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import { StoreProvider } from "./contexts/StoreContext";
 
 ReactDOM.render(
   <BrowserRouter>
-    <App />
+    <StoreProvider>
+      <App />
+    </StoreProvider>
   </BrowserRouter>, 
   document.getElementById('root')
 );

@@ -4,9 +4,26 @@ import Tile from './Tile';
 
 class Favorites extends React.Component {
 
+  state = {
+    favs: null
+  }
+
+  componentDidMount() {
+
+    this.setState({
+      favs: this.getFavorites()
+    }, () => console.log(this.state))
+  }
+
+  getFavorites = () => {
+
+    return JSON.parse(localStorage.getItem('favs'))
+  }
+  
+
   renderFavTiles = (favs) => {
-    
-    if(favs.length) {
+
+    if (favs && favs.length) {
       return favs.map(fav => <Tile key={fav.id} tile={fav} fav={true}/>)
     }
 
@@ -15,19 +32,28 @@ class Favorites extends React.Component {
   
 
   render() {
+
+    console.log(`favs render`)
+
     return (
+
       <div className='tile-area'>
         <StoreConsumer>
-          { ctx => {
-            console.log(ctx)
+          {ctx => {
+            // console.log(ctx)
             return (
               <>
-              { this.renderFavTiles(ctx.favorites) }
+                {this.renderFavTiles(ctx.favorites)}
               </>
             )
           }}
         </StoreConsumer>
       </div>
+
+      // can't bc it doesn't update when ctx changes
+      // <div className='tile-area'>
+      //   { this.renderFavTiles() }
+      // </div>
     )
   }
 };

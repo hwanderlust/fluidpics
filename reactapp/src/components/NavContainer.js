@@ -37,12 +37,12 @@ class Nav extends React.PureComponent {
       };
     
     }, () => {
-      // if(clickedTitle === 'favorites') {
-      //   this.props.history.push('/favorites')
+      if(clickedTitle === 'favorites') {
+        this.props.history.push('/favorites')
       
-      // } else {
-      //   this.props.history.push('/')
-      // }
+      } else {
+        this.props.history.push('/')
+      }
     })
   }
   

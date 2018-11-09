@@ -1,29 +1,32 @@
-import React, { Component } from 'react';
+import React, { Component, Suspense, lazy } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import './App.css';
-import TileContainer from './components/TileContainer';
+// import TileContainer from './components/TileContainer';
 import NavContainer from './components/NavContainer';
-import { StoreProvider } from './contexts/StoreContext';
-import Favorites from './components/Favorites';
+import Home from './components/Home'
+// import WindowingTileContainer from './components/WindowingTileContainer';
+
+const Favorites = lazy(() => import('./components/Favorites'))
 
 class App extends Component {
-  
-  
+
   render() {
 
     return (
-      <StoreProvider>
-        <div className="App">
+      <div className="App">
+        <Switch>
+          <Route exact path="/" component={Home} />
+          {/* <Route exact path="/" component={TileContainer} /> */}
+          {/* <Route exact path="/" component={WindowingTileContainer} /> */}
+          <Route exact path="/favorites" render={() => (
+              <Suspense delayMs={1000} fallback={<div>Loading!</div>}>
+                <Favorites />
+              </Suspense>
+          )} />
+        </Switch>
 
-          <Switch>
-            <Route exact path="/" component={TileContainer} />
-            <Route exact path="/favorites" component={Favorites} />
-          </Switch>
-
-          <NavContainer />
-
-        </div>
-      </StoreProvider>
+        <NavContainer />
+      </div>
     );
   }
 }

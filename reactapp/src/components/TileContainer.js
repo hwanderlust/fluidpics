@@ -1,6 +1,8 @@
-import React from 'react'
-import Tile from './Tile'
+import React, { Component, Suspense, lazy } from 'react'
+// import Tile from './Tile'
 import { StoreConsumer } from "../contexts/StoreContext";
+const Tile = lazy(() => import('./Tile'))
+
 
 const pluralize = (num, words) => {
   if(Math.floor(num) === 1) {
@@ -10,7 +12,10 @@ const pluralize = (num, words) => {
   }
 }
 
-export default class TileContainer extends React.Component {
+
+class TileContainer extends Component {
+
+  static contextType = StoreConsumer;
   
   state = {
     data: null,
@@ -78,15 +83,14 @@ export default class TileContainer extends React.Component {
   render() {
     return (
       <div className='tile-area'>
-        <StoreConsumer>
+        <Suspense delayMs={1000} fallback={<div>Loading...</div>}>
 
-          { ctx => {
-            // console.log(ctx)
-            return this.state.data ? this.renderTiles() : null
-          }}
+          { this.state.data ? this.renderTiles() : null }
 
-        </StoreConsumer>
+        </Suspense>
       </div>
     )
   }
 }
+
+export default TileContainer;

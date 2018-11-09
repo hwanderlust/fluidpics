@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { Suspense, lazy, PureComponent } from 'react'
 import { StoreConsumer } from "../contexts/StoreContext";
-import TilePic from './TilePic';
+// import TilePic from './TilePic';
+import TileThumbnail from './TileThumbnail';
 import TileTitle from './TileTitle';
 import TileDetails from './TileDetails';
+const TilePic = lazy(() => import('./TilePic'))
 
 const originalStyle = {
   position: 'relative',
@@ -17,12 +19,15 @@ const favStyle = {
 }
 
 
-class Tile extends React.PureComponent {
-
+class Tile extends PureComponent {
+  
+  static contextType = StoreConsumer;
+  
   state = {
-    fav: false
+    fav: false,
+    loaded: false
   }
-
+  
   componentDidMount() {
 
     if(this.props.fav) {
@@ -31,17 +36,21 @@ class Tile extends React.PureComponent {
       })
     }
   }
+  
+  toggleFav = () => {
+    
+    const { handleFavoriting, handleUnfavoriting } = this.context
+    const { tile } = this.props 
 
-  toggleFav = (handleFavoriting, handleUnfavoriting, tile) => {
     this.setState(prevState => {
-
+      
       if(prevState.fav) {
         handleUnfavoriting(tile.id)
         
       } else {
         handleFavoriting(tile)
       }
-
+      
       return {
         fav: !prevState.fav
       }
@@ -49,38 +58,47 @@ class Tile extends React.PureComponent {
       console.log(this.state)
     })
   }
-
+  
   handleIconStyles = () => {
-
+    
     if(this.state.fav) {
       return {...originalStyle, ...favStyle}
-
+      
     } else {
       return originalStyle
     }
   }
+  
+  handleOnload = () => {
+    this.setState(prevState => {
+      return {
+        loaded: true
+      }
+    })
+  }
 
+  asyncRenderPic = (pic) => {
+    return (
+      <Suspense>
+        <TilePic picture={ pic } />
+      </Suspense>
+    )
+  }
+  
 
   render() {
-    const { tile } = this.props 
-
+    const { tile, style } = this.props 
+    
     return (
+      
+      <div className='tile-container' style={style} onDoubleClick={this.toggleFav}  >
+        {<i className='fab fa-gratipay' style={this.handleIconStyles()} onClick={this.toggleFav}></i> }
 
-      <StoreConsumer>
-        { ctx => {
-          
-          return (
-          
-            <div className='tile-container' onDoubleClick={() => this.toggleFav(ctx.handleFavoriting, ctx.handleUnfavoriting, tile)}  >
-              {<i className='fab fa-gratipay' style={this.handleIconStyles()} onClick={() => this.toggleFav(ctx.handleFavoriting, ctx.handleUnfavoriting, tile)}></i> }
-              <TilePic picture={ tile.picture }/>
-              <TileTitle title={ tile.title } />
-              <TileDetails tile={tile} />
-          </div>
-          
-          )
-        }}
-        </StoreConsumer>
+        { this.state.loaded ? this.asyncRenderPic(tile.picture) : <TileThumbnail thumbnail={ tile.thumbnail } handleOnload={this.handleOnload} /> }
+
+        <TileTitle title={ tile.title } />
+        <TileDetails tile={tile} />
+      </div>
 
     )
   }

@@ -31,11 +31,12 @@ const NavItem = memo(({ title, active, toggleActive }) => {
   }
 
   const handleHref = () => {
-    if(title === 'favorites') {
-      return '/favorites'
-    } else {
-      return '/'
-    }
+    // this refreshes the page
+    // if(title === 'favorites') {
+    //   return '/favorites'
+    // } else {
+    //   return '/'
+    // }
   }
 
   return (

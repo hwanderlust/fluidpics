@@ -1,5 +1,6 @@
 import React, { memo } from 'react';
 
+
 const TilePic = memo(({ picture }) => {
 
   const styles = { 
@@ -8,7 +9,7 @@ const TilePic = memo(({ picture }) => {
     backgroundRepeat: "no-repeat", 
     backgroundPosition: "center" 
   };
-
+  
   return <div className="pic-container" style={styles} />;
 });
 
