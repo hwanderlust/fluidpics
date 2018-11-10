@@ -1,0 +1,95 @@
+@import 'mixins';
+@import 'variables';
+
+.tile-area {
+  grid-area: content;
+  @include flexbox-inverted('items');
+  margin-top: 18vh;
+
+  .tile-wrapper {
+    @include flexbox-standard('items');
+    position: relative;
+    height: 500px;
+    max-width: 500px;
+    margin-bottom: 1rem;
+
+    .tile-container {
+      @include flexbox-inverted('content');
+      height: 500px;
+      max-width: 500px;
+      box-shadow: 1px 1px 1px rgba(0,0,0,0.35);
+      @include transform(scale(0.98));
+      cursor: pointer;
+
+      &:hover {
+        background-color: rgba(0,0,0,0.1);
+        @include transform(scale(1));
+        box-shadow: 2px 2px 2px rgba(0,0,0,0.5);
+        transition: ease 250ms;
+      }
+
+      &:focus {
+        outline-color: $outline-color;
+        background-color: rgba(0,0,0,0.1);
+        @include transform(scale(1));
+        box-shadow: 2px 2px 2px rgba(0,0,0,0.5);
+        transition: ease 250ms;
+      }
+
+      .pic-container {
+        width: 500px;
+        height: 350px;
+        position: relative;
+        margin-block-start: 0;
+        margin-block-end: 0;
+        margin-inline-start: 0;
+        margin-inline-end: 0;
+
+        .tile-pic {
+          position: relative;
+          height: 100%;
+          max-width: 500px;
+        }
+      }
+
+      .pic-title {
+        font-family: $title-font;
+        font-size: 18px;
+        line-height: 24px;
+        color: #000;
+        border-bottom: 1px solid rgba(0,0,0,0.2);
+        height: 100px;
+        margin: 0;
+        @include flexbox-standard('items');
+      }
+
+      .pic-details {
+        font-family: $primary-font;
+        font-size: 12px;
+        color: #999;
+        border-bottom: 1px solid rgba(0,0,0,0.2);
+        height: 50px;
+        margin: 0;
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+      }
+    }
+
+    .fav-icon {
+      font-size: 3em;
+      transition: ease 50ms;
+      cursor: pointer;
+
+      &:focus {
+        outline-color: $outline-color;
+      }
+    }
+
+    .red {
+      color: red;
+    }
+
+
+  }
+}

@@ -4,7 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import { StoreProvider } from "./contexts/StoreContext";
+import { StoreProvider } from "./contexts/";
 
 ReactDOM.render(
   <BrowserRouter>

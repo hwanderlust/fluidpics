@@ -1,7 +1,7 @@
 import React, { Component, Suspense, lazy } from 'react';
 import { Switch, Route } from 'react-router-dom';
-import './App.scss';
-import Navbar from './components/Navbar';
+import './css/App.scss';
+import Navbar from './components/Nav/Navbar';
 import Home from './components/Home'
 
 const Favorites = lazy(() => import('./components/Favorites'))

@@ -1,9 +1,11 @@
 import React from 'react';
-import { StoreConsumer } from '../contexts/StoreContext';
-import Tile from './Tile';
+import { StoreConsumer } from '../contexts';
+import Tile from './Tile/Tile';
 
 class Favorites extends React.Component {
 
+  static contextType = StoreConsumer;
+  
   state = {
     favs: null
   }
@@ -33,8 +35,6 @@ class Favorites extends React.Component {
 
   render() {
 
-    console.log(`favs render`)
-
     return (
 
       <main className='tile-area'>
@@ -50,10 +50,10 @@ class Favorites extends React.Component {
         </StoreConsumer>
       </main>
 
-      // can't bc it doesn't update when ctx changes
-      // <div className='tile-area'>
+      // can't bc it doesn't update when ctx changes--when you unfav something
+      // <main className='tile-area'>
       //   { this.renderFavTiles() }
-      // </div>
+      // </main>
     )
   }
 };

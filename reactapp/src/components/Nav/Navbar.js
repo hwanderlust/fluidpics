@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import { NavLink, withRouter } from 'react-router-dom';
 import Search from "./Search";
-import { StoreConsumer } from '../contexts/StoreContext';
+import { StoreConsumer } from '../../contexts';
 
 const Navbar = memo(() => {
 

@@ -1,0 +1,64 @@
+@import 'mixins';
+@import 'variables';
+
+.nav-bar {
+  color: $light-blue;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  height: 6vh;
+  position: fixed;
+  width: 100vw;
+  background-color: rgba(255,255,255,0.7);
+  z-index: 100;
+
+  &:after {
+  position: fixed;
+  content: '';
+  background: linear-gradient(to right, rgba(0,0,0,0.5), $light-blue);
+  height: 3px;
+  right: 0;
+  left: 0;
+  top: 6vh;
+  }
+
+  .nav-item {
+    @include flexbox-standard('items');
+    padding: 0 2vw;
+    height: 100%;
+    box-sizing: content-box;
+    font-family: $primary-font;
+    font-size: 16px;
+    background-color: #FFF;
+    color: $light-blue;
+    list-style-type: none;
+    text-decoration: none;
+
+    &:focus {
+      outline-color: $outline-color;
+    }
+  }
+  
+  .active {
+    background-color: $light-blue;
+    color: #FFF;
+  }
+
+  .search-bar {
+    height: 5.5vh;
+    position: fixed;
+    top: 0;
+    left: 66%;
+    width: 33%;
+    line-height: 2em;
+    font-size: 3vw;
+    text-align: center;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 5px;
+
+    &:focus {
+      outline-color: $outline-color;
+    }
+  }
+
+}

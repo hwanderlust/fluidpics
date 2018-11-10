@@ -1,11 +1,12 @@
 import React, { PureComponent } from 'react'
-import { StoreConsumer } from "../contexts/StoreContext";
+import { StoreConsumer } from "../../contexts";
 import TileTitle from './TileTitle';
 import TileDetails from './TileDetails';
 import TilePic from './TilePic';
 
 class Tile extends PureComponent {
   
+  // new addition with 16.6
   static contextType = StoreConsumer;
   
   constructor(props) {
@@ -32,6 +33,7 @@ class Tile extends PureComponent {
     }
   }
 
+  // CSS classes
   toggleFavClass = () => {
 
     const iconClass = this.favIcon.current.className;
@@ -44,7 +46,7 @@ class Tile extends PureComponent {
     }
   }
   
-  
+  // each Tile instance keeps track of its own state and the inside fn are from the Context
   toggleFav = () => {
     const { handleFavoriting, handleUnfavoriting } = this.context
     const { tile } = this.props 
@@ -68,6 +70,7 @@ class Tile extends PureComponent {
     })
   }
 
+  // accessibility via keyboard
   handleKeyPress = (e) => {
 
     if(e.key === 'Enter') {
@@ -75,12 +78,19 @@ class Tile extends PureComponent {
     }
   }
 
+  // pass down higher res pic after thumbnail was loaded for lower bandwiths 
   handleOnload = () => {
     this.setState({
       loaded: true
     })
   }
+
+  handleOnError = (e) => {
+    e.target.parentElement.parentElement.parentElement.remove()
+  }
   
+  
+  // for mobiles and tablets
   handleTouch = (e) => {
     e.persist()
     let previousState;
@@ -100,6 +110,16 @@ class Tile extends PureComponent {
       } 
     })
   }
+
+  passPictureDown = () => {
+    
+    if(this.state.loaded) {
+      return this.props.tile.picture
+    }
+
+    return this.props.tile.thumbnail
+  }
+  
   
 
   render() {
@@ -111,13 +131,14 @@ class Tile extends PureComponent {
           <div className="tile-container" style={style} onDoubleClick={this.toggleFav} tabIndex='0' >
 
             <TilePic 
-              picture={this.state.loaded ? tile.picture : tile.thumbnail} 
+              picture={this.passPictureDown()} 
               title={tile.title} 
               author={tile.author} 
-              handleOnload={this.handleOnload} 
+              handleOnload={this.handleOnload}
+              handleOnError={this.handleOnError} 
             />
             
-            <TileTitle title={tile.title} />
+            <TileTitle title={tile.title} url={tile.url} />
             <TileDetails tile={tile} />
           
           </div>

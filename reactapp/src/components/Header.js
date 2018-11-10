@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import { StoreConsumer } from '../contexts/StoreContext'
+import { StoreConsumer } from '../contexts'
 
 const Header = memo(() => {
 

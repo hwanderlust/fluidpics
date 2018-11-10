@@ -1,6 +1,7 @@
 import React from 'react';
-import TileContainer from './TileContainer';
+import TileContainer from './Tile/TileContainer';
 import Header from './Header';
+// import WindowingTileContainer from './WindowingTileContainer';
 
 const Home = () => {
   
@@ -8,6 +9,7 @@ const Home = () => {
     <>
       <Header />      
       <TileContainer />
+      {/* <WindowingTileContainer /> */}
     </>
   )
 }

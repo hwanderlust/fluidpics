@@ -1,4 +1,5 @@
 import React from 'react';
+import { serialize } from "../methods";
 
 const StoreContext = React.createContext();
 
@@ -13,13 +14,31 @@ export class StoreProvider extends React.Component {
     handleFavoriting: null,
     handleUnfavoriting: null,
     favorites: [],
+    data: null,
   }
 
   componentDidMount() {
-
+    console.log(`ctx mounted`)
+    this.handleInitialDataFetch()
     this.handlePersistingFavs()
     this.makeFunctionsAvailable()
   }
+
+  handleInitialDataFetch = () => {
+    fetch("https://www.reddit.com/r/analog/top/.json")
+      .then(r => r.json())
+      .then(r => {
+        console.log(r);
+
+        this.setState({
+            data: r.data.children.map(el => serialize(el.data))
+          },
+
+          () => console.log(`didMount`, this.state)
+        );
+      });
+  }
+  
 
   handlePersistingFavs = () => {
     const savedFavs = localStorage.getItem("favs")
