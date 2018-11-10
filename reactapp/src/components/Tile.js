@@ -13,6 +13,9 @@ class Tile extends PureComponent {
 
     this.state = {
       fav: false,
+      loaded: false,
+      touched: 0,
+      timeStamp: 0,
     }
 
     this.favIcon = React.createRef()
@@ -66,11 +69,36 @@ class Tile extends PureComponent {
   }
 
   handleKeyPress = (e) => {
-    console.log(`key:`, e.key)
 
     if(e.key === 'Enter') {
       this.toggleFav()
     }
+  }
+
+  handleOnload = () => {
+    this.setState({
+      loaded: true
+    })
+  }
+  
+  handleTouch = (e) => {
+    e.persist()
+    let previousState;
+
+    this.setState(prevState => {
+      previousState = prevState;
+
+      return {
+        touched: prevState.touched < 2 ? ++prevState.touched : 1,
+        timeStamp: e.timeStamp
+      }
+    
+    }, () => {
+
+      if(this.state.touched === 2 && this.state.timeStamp - previousState.timeStamp <= 1000) {
+        this.toggleFav()
+      } 
+    })
   }
   
 
@@ -79,13 +107,23 @@ class Tile extends PureComponent {
     
     return (
       <React.Fragment>
-        <div className='tile-wrapper'>
+        <div className='tile-wrapper' onTouchStartCapture={this.handleTouch}>
           <div className="tile-container" style={style} onDoubleClick={this.toggleFav} tabIndex='0' >
-            <TilePic picture={tile.picture} />
+
+            <TilePic 
+              picture={this.state.loaded ? tile.picture : tile.thumbnail} 
+              title={tile.title} 
+              author={tile.author} 
+              handleOnload={this.handleOnload} 
+            />
+            
             <TileTitle title={tile.title} />
             <TileDetails tile={tile} />
+          
           </div>
+
           <i ref={this.favIcon} className="fab fa-gratipay fav-icon" onClick={this.toggleFav} onKeyPress={this.handleKeyPress} tabIndex='0'/>
+        
         </div>
       </React.Fragment>
     )

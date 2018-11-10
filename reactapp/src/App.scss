@@ -140,6 +140,7 @@ header h1 {
   max-width: 500px;
   box-shadow: 1px 1px 1px rgba(0,0,0,0.35);
   @include transform(scale(0.98));
+  cursor: pointer;
 }
 
 .tile-container:hover {
@@ -160,9 +161,12 @@ header h1 {
 .pic-container {
   width: 500px;
   height: 350px;
-  background-size: cover; 
-  background-repeat: no-repeat; 
-  background-position: center; 
+  position: relative;
+}
+
+.tile-pic {
+  position: relative;
+  height: 100%;
 }
 
 .pic-title {
@@ -191,6 +195,7 @@ header h1 {
 .fav-icon {
   font-size: 3em;
   transition: ease 50ms;
+  cursor: pointer;
 }
 
 .red {
@@ -239,9 +244,10 @@ header h1 {
   .tile-wrapper {
     display: flex;
     flex-direction: column;
+    width: auto;
   }
 
-  .pic-container {
+  .tile-pic {
     width: auto;
   }
 
@@ -249,4 +255,11 @@ header h1 {
     left: 0;
   }
 
+}
+
+@media (max-width: 500px) {
+
+  .tile-area {
+    margin-top: 21vh;
+  }
 }
